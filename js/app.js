@@ -19,6 +19,22 @@ const TIME_LIMIT = 15;
 let gameStat = "loading";
 let isLookingBackward = true;
 
+// create an AudioListener and add it to the camera
+const listener = new THREE.AudioListener();
+camera.add( listener );
+
+// create a global audio source
+const sound = new THREE.Audio( listener );
+
+// load a sound and set it as the Audio object's buffer
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load( '../music/music_bg.mp3', function( buffer ) {
+	sound.setBuffer( buffer );
+	sound.setLoop( true );
+	sound.setVolume( 0.5 );
+	sound.play();
+});
+
 function createCube(size,position,rotX = 0,color=0xfbc2c4){
     const geometry = new THREE.BoxGeometry(size.w, size.h, size.d);
     const material = new THREE.MeshBasicMaterial( { color: color } );
@@ -32,6 +48,9 @@ function createCube(size,position,rotX = 0,color=0xfbc2c4){
 async function delay(ms){
     return new Promise(resolve => setTimeout(resolve, ms))
 }
+
+const bgMusic = new Audio('../music/bg.mp3')
+bgMusic.loop = true
 
 camera.position.z = 5;
 
